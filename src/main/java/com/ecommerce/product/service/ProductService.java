@@ -1,32 +1,42 @@
 package com.ecommerce.product.service;
 
 import com.ecommerce.product.model.Product;
+import com.ecommerce.product.model.dto.ProductRequestDto;
+import com.ecommerce.product.model.dto.ProductResponseDto;
 import com.ecommerce.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-    public Product getProductById(Long id) {
+    @Transactional
+    public Product createProduct(ProductRequestDto requestDto) {
+        return productRepository.save(requestDto.toEntity());
+    }
+
+    @Transactional(readOnly = true)
+    public ProductResponseDto getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new RuntimeException("Product not found")).toResponse();
     }
 
+    @Transactional
     public void updateStock(Long productId, int quantity) {
-        Product product = getProductById(productId);
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
         int newStock = product.getStock() - quantity;
         if (newStock < 0) {
             throw new RuntimeException("Insufficient stock for product: " + productId);
         }
-        product.setStock(newStock);
+        product.minusStock(newStock);
         productRepository.save(product);
     }
 }
