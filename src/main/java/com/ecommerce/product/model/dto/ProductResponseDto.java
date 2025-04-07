@@ -1,11 +1,16 @@
 package com.ecommerce.product.model.dto;
 
 import com.ecommerce.product.model.Product;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Builder
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductResponseDto {
   private Long id;
   private String name;
