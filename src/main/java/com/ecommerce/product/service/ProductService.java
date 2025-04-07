@@ -32,11 +32,6 @@ public class ProductService {
     public void updateStock(Long productId, int quantity) {
         Product product = productRepository.findById(productId)
             .orElseThrow(() -> new RuntimeException("Product not found"));
-        int newStock = product.getStock() - quantity;
-        if (newStock < 0) {
-            throw new RuntimeException("Insufficient stock for product: " + productId);
-        }
-        product.minusStock(newStock);
-        productRepository.save(product);
+        product.minusStock(quantity);
     }
 }

@@ -43,7 +43,11 @@ public class Product extends BaseEntity {
             .build();
     }
 
-    public void minusStock(Integer minusValue) {
-        this.stock = this.stock - minusValue;
+    public void minusStock(Integer quantity) {
+        int newStock = this.stock - quantity;
+        if (newStock < 0) {
+            throw new RuntimeException("재고가 부족합니다.");
+        }
+        this.stock = this.stock - quantity;
     }
 }
