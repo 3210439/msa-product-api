@@ -1,6 +1,6 @@
-# MSA Product API 
+# 상품 API MSA 프로젝트
 
-## 프로젝트 개요
+## 개요
 MSA Product API는 마이크로서비스 아키텍처(MSA)를 기반으로 한 전자상거래 플랫폼의 제품 관리 서비스입니다. 이 프로젝트는 제품의 생성, 조회, 재고 관리를 제공하며, Kafka를 통해 주문 이벤트와 통합되어 실시간 재고 업데이트를 처리합니다. Spring Boot와 JPA를 활용하여 RESTful API를 구현하고, Docker를 통해 MySQL 데이터베이스와 함께 배포됩니다.
 
 ---
